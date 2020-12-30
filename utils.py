@@ -84,8 +84,7 @@ def get_feature(wave_data, framerate=16000, feature_dim=128):
     """
     wave_data = wave_data.astype("float32")
     specgram = librosa.feature.melspectrogram(wave_data, sr=framerate, n_fft=512, hop_length=160, n_mels=feature_dim)
-    specgram = np.ma.log(specgram).T
-    specgram = specgram.filled(0)
+    specgram = librosa.amplitude_to_db(specgram).T
     return specgram
 
 
