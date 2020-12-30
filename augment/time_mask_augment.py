@@ -17,12 +17,20 @@ def time_mask_augment(inputs, max_mask_time=5, mask_num=10):
     :param mask_num:
     :return:
     """
-    time_len = inputs.shape[1]
+    dim = len(inputs.shape)
+    time_len = 0
+    if dim == 2:
+        time_len = inputs.shape[0]
+    elif dim == 3:
+        time_len = inputs.shape[1]
     for i in range(mask_num):
         t = np.random.uniform(low=0.0, high=max_mask_time)
         t = int(t)
         t0 = random.randint(0, time_len - t)
-        inputs[:, t0:t0 + t, :] = 0
+        if dim == 2:
+            inputs[t0:t0 + t, :] = inputs[0, 0].copy()
+        elif dim == 3:
+            inputs[:, t0:t0 + t, :] = inputs[0, 0, 0].copy()
 
     return inputs
 
