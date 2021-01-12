@@ -7,7 +7,7 @@
 import librosa
 import random
 import cv2
-from utils import read_wave_from_file, save_wav, tensor_to_img, get_feature
+from utils import read_wave_from_file, save_wav, tensor_to_img, get_feature, plot_spectrogram
 
 
 def pitch_librosa(samples, sr=16000, ratio=5):
@@ -43,11 +43,11 @@ if __name__ == '__main__':
     file = '../audio/speech.wav'
     audio_data, frame_rate = read_wave_from_file(file)
     feature = get_feature(audio_data)
-    tensor_to_img(feature)
+    plot_spectrogram(feature, 'before')
 
     audio_data = pitch_cv(audio_data)
 
     out_file = '../audio/pitch_librosa.wav'
     save_wav(out_file, audio_data)
     feature = get_feature(audio_data)
-    tensor_to_img(feature)
+    plot_spectrogram(feature, 'after')
